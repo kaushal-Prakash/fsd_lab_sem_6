@@ -8,6 +8,6 @@ urlpatterns = [
     # path("", include("stud_db.urls")),   # maps stud_db app url from this urls file
     # path("library/", include("library.urls")),
     # path("student/", include("student_form.urls")),
-    path("", include("ajax.urls")),
+    # path("", include("ajax.urls")),
     path("pdf_csv/", include("pdf_csv.urls"))
 ]
