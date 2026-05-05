@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # "stud_db",
     # "library",
     # "student_form",
-    "pdf_csv"
+    "ajax"
 ]
 
 MIDDLEWARE = [
