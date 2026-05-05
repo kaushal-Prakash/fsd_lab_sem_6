@@ -1,5 +1,7 @@
-from django.contrib import admin
-from student_form.models import Project
+{
+    "name": "add_student_form_page",
+    "arguments": {
+        "filepath": "/path/to/your/student_forms/project_student_forms"
+    }
+}
 
-# Register your models here.
-admin.site.register(Project)
