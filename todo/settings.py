@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     # "main",
     # "template_inheritance",
-    "stud_db",
-    "library",
-    "student_form",
+    # "stud_db",
+    # "library",
+    # "student_form",
+    "pdf_csv"
 ]
 
 MIDDLEWARE = [
