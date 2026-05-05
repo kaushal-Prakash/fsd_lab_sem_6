@@ -56,7 +56,11 @@ def generatePDF(request):
         ('FONTSIZE', (0, 0), (-1, 0), 14),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('LINEABOVE', (0, 0), (-1, 0), 2, colors.black),
+        ('LINEBELOW', (0, -1), (-1, -1), 2, colors.black),
+        ('LINELEFT', (0, 0), (0, -1), 2, colors.black),
+        ('LINERIGHT', (-1, 0), (-1, -1), 2, colors.black)
     ]))
     
     # Build and return PDF
