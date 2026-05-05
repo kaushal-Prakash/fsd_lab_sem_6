@@ -1,0 +1,25 @@
+{% extends 'basic_page.html' %}
+
+{% block title %}Course List{% endblock %}
+
+{% block content %}
+<h1>Course List</h1>
+<table border="1" style="margin: 20px auto; border-collapse: collapse;">
+<tr style="background-color: lightblue;">
+<th style="padding: 10px; border: 1px solid #ddd;">Course Code</th>
+<th style="padding: 10px; border: 1px solid #ddd;">Course Name</th>
+<th style="padding: 10px; border: 1px solid #ddd;">Credits</th>
+</tr>
+{% for c in course_list1 %}
+<tr>
+<td style="padding: 10px; border: 1px solid #ddd;">{{ c.coursecode }}</td>
+<td style="padding: 10px; border: 1px solid #ddd;">{{ c.coursename }}</td>
+<td style="padding: 10px; border: 1px solid #ddd;">{{ c.credits }}</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="3" style="padding: 10px; text-align: center;">No courses available</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
