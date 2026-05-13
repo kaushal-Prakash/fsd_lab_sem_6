@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.views.generic import ListView, DetailView
 from .models import Student, Course
 
 
@@ -95,3 +96,21 @@ def add_course(request):
         return redirect('courses')
 
     return render(request, 'add_course.html')
+
+
+# 📋 Generic Class View - Student List
+class StudentListView(ListView):
+    """Display list of all students using generic ListView"""
+    model = Student
+    template_name = 'student_list.html'
+    context_object_name = 'students'
+    paginate_by = 10  # Optional: paginate results
+
+
+# 👤 Generic Class View - Student Detail
+class StudentDetailView(DetailView):
+    """Display details of a specific student with enrolled courses"""
+    model = Student
+    template_name = 'student_detail.html'
+    context_object_name = 'student'
+    pk_url_kwarg = 'student_id'

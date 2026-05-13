@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'django.contrib.sessions',
-    # "main",
-    # "template_inheritance",
-    # "stud_db",
-    # "library",
-    # "student_form",
+    "main",
+    "template_inheritance",
+    "stud_db",
+    "library",
+    "student_form",
     "ajax",
     "pdf_csv"
 ]
