@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'time_offset',
     'template_inheritance',
-    'student'
+    'student',
+    'student_forms'
 ]
 
 MIDDLEWARE = [
