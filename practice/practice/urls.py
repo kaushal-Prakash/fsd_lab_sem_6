@@ -21,6 +21,7 @@ from template_inheritance import views as template_inheritance
 from student import views as student_course
 from student_forms import views as student_forms
 from generic_class import views as generic_class
+from pdf_csv import views as pdf_csv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,6 @@ urlpatterns = [
     path('student_forms/',student_forms.project_view),
     path('generic_class/students',generic_class.StudentListView.as_view(), name='student_list'),
     path('generic_class/students/<int:id>',generic_class.StudentDetailView.as_view(), name='student_detail'),
+    path('pdf_csv/csv',pdf_csv.generateCSV),
+    path('pdf_csv/pdf',pdf_csv.generatePDF)
 ]
