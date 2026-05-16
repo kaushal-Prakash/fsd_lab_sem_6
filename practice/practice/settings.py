@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'time_offset',
-    'template_inheritance'
+    'template_inheritance',
+    'student'
 ]
 
 MIDDLEWARE = [

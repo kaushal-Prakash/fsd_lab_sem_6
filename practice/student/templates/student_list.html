@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Student List</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <select name="course" aria-placeholder="Select Course">
+            {% for s in courses %}
+                <option value="{{s.id}}">{{s.name}}</option>
+            {% endfor %}
+        </select>
+        <button action="submit">See Student List</button>
+    </form>
+    <p>
+        <ul>
+            {% for s in students %}
+                <li>{{s.name}}</li>
+            {% endfor %}
+        </ul>
+    </p>
+</body>
+</html>
