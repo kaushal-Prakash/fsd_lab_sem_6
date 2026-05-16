@@ -1,0 +1,11 @@
+<h1>{{ student.name }}</h1>
+
+<h2>Enrolled Courses</h2>
+
+<ul>
+  {% for course in student.courses.all %}
+    <li>{{ course.name }} - {{ course.credits }} Credits</li>
+  {% empty %}
+    <li>No courses enrolled.</li>
+  {% endfor %}
+</ul>

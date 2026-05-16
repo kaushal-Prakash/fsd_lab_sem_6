@@ -20,6 +20,8 @@ from time_offset import views as offset_views
 from template_inheritance import views as template_inheritance
 from student import views as student_course
 from student_forms import views as student_forms
+from generic_class import views as generic_class
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('time/<int:offset>', offset_views.time),
@@ -28,5 +30,7 @@ urlpatterns = [
     path('template_inheritance/contact', template_inheritance.contact),
     path('student/student_list',student_course.student_list),
     path('student/enrol_student',student_course.enrol_student),
-    path('student_forms/',student_forms.project_view)
+    path('student_forms/',student_forms.project_view),
+    path('generic_class/students',generic_class.StudentListView.as_view(), name='student_list'),
+    path('generic_class/students/<int:id>',generic_class.StudentDetailView.as_view(), name='student_detail'),
 ]

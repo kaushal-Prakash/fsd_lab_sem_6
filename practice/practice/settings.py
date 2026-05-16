@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'time_offset',
     'template_inheritance',
     'student',
-    'student_forms'
+    'student_forms',
+    'generic_class'
 ]
 
 MIDDLEWARE = [
