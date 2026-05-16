@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'time_offset'
+    'time_offset',
+    'template_inheritance'
 ]
 
 MIDDLEWARE = [

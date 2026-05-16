@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from time_offset import views
+from time_offset import views as offset_views
+from template_inheritance import views as template_inheritance
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('time/<int:offset>',views.time)
+    path('time/<int:offset>', offset_views.time),
+    path('template_inheritance/about', template_inheritance.about),
+    path('template_inheritance/home', template_inheritance.home),
+    path('template_inheritance/contact', template_inheritance.contact),
 ]
