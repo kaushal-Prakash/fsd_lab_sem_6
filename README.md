@@ -14,8 +14,9 @@ This repository contains comprehensive Django experiments covering various web d
 6. [Lab 5: Model Forms](#lab-5-model-forms)
 7. [Lab 6: Generic Class Views (List & Detail)](#lab-6-generic-class-views-list--detail)
 8. [Lab 7: CSV & PDF Generation](#lab-7-csv--pdf-generation)
-9. [Important Django Commands](#important-django-commands)
-10. [Project Structure Overview](#project-structure-overview)
+9. [Lab 8: Django Authentication System](#lab-8-django-authentication-system)
+10. [Important Django Commands](#important-django-commands)
+11. [Project Structure Overview](#project-structure-overview)
 
 ---
 
@@ -758,7 +759,236 @@ pip install reportlab
 
 ---
 
-## 📌 Important Django Commands
+## � Lab 8: Django Authentication System
+
+**App Name:** `login_signup`
+**Location:** [practice/login_signup/](practice/login_signup/)
+
+### Objective
+Develop a Django application that allows users to:
+- Register with a new account using UserCreationForm
+- Log in with username and password
+- Log out and be redirected to the login page
+- View a protected dashboard only when authenticated
+- Use Django's built-in authentication system
+
+### Key Features
+✅ User registration with password validation
+✅ User login with Django's LoginView
+✅ User logout with Django's LogoutView
+✅ Login-required decorator for protected views
+✅ User authentication and session management
+✅ Form validation and error handling
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| [practice/login_signup/views.py](practice/login_signup/views.py) | Views for signup, signin, signout, and dashboard |
+| [practice/login_signup/urls.py](practice/login_signup/urls.py) | URL routing with named patterns |
+| [practice/login_signup/templates/signup_page.html](practice/login_signup/templates/signup_page.html) | User registration form |
+| [practice/login_signup/templates/signin_page.html](practice/login_signup/templates/signin_page.html) | User login form |
+| [practice/login_signup/templates/dashboard.html](practice/login_signup/templates/dashboard.html) | Protected user dashboard |
+
+### Models
+
+No custom models are required. Uses Django's built-in `User` model from `django.contrib.auth.models`.
+
+### Views Implementation
+
+#### User Signup View
+```python
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+
+def user_signup(request):
+    """Handle user registration"""
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("user_signin")  # Redirect to login after signup
+    else:
+        form = UserCreationForm()
+    
+    return render(request, "signup_page.html", {"form": form})
+```
+
+#### User Login View
+```python
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+
+class UserSigninView(LoginView):
+    """Handle user login using Django's built-in LoginView"""
+    template_name = "signin_page.html"
+    
+    def get_success_url(self):
+        """Redirect to dashboard after successful login"""
+        return reverse_lazy("dashboard")
+```
+
+#### User Logout View
+```python
+from django.contrib.auth.views import LogoutView
+
+class UserSignoutView(LogoutView):
+    """Handle user logout using Django's built-in LogoutView"""
+    next_page = reverse_lazy("user_signin")  # Redirect to login after logout
+```
+
+#### Protected Dashboard View
+```python
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def dashboard_view(request):
+    """Display dashboard - only for authenticated users"""
+    return render(request, "dashboard.html", {"user": request.user})
+```
+
+### URL Configuration
+
+```python
+from django.urls import path
+from login_signup import views as login_signup
+
+urlpatterns = [
+    path('login_signup/signup', login_signup.user_signup, name='user_signup'),
+    path('login_signup/signin', login_signup.UserSigninView.as_view(), name='user_signin'),
+    path('login_signup/signout', login_signup.UserSignoutView.as_view(), name='user_signout'),
+    path('login_signup/dashboard', login_signup.dashboard_view, name='dashboard'),
+]
+```
+
+### Templates
+
+#### signup_page.html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+    <h2>User Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'user_signin' %}">Login here</a></p>
+</body>
+</html>
+```
+
+#### signin_page.html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>User Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'user_signup' %}">Sign up here</a></p>
+</body>
+</html>
+```
+
+#### dashboard.html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }}!</h2>
+    {% if user.is_authenticated %}
+        <p>You are logged in. Feel free to explore!</p>
+        <form action="{% url 'user_signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Sign Out</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'user_signin' %}">Please login first</a></p>
+    {% endif %}
+</body>
+</html>
+```
+
+### Django Settings Configuration
+
+Ensure these settings are in `settings.py`:
+
+```python
+# Authentication settings
+LOGIN_URL = 'user_signin'  # URL name for login redirect
+LOGIN_REDIRECT_URL = 'dashboard'  # URL name after successful login
+LOGOUT_REDIRECT_URL = 'user_signin'  # URL name after logout
+
+# Add authentication app if not already included
+INSTALLED_APPS = [
+    'django.contrib.auth',  # Must be included for User model
+    'django.contrib.contenttypes',
+    # ... other apps ...
+    'login_signup',
+]
+```
+
+### How to Access
+
+- **Sign Up:** http://127.0.0.1:8000/login_signup/signup
+- **Sign In:** http://127.0.0.1:8000/login_signup/signin
+- **Dashboard:** http://127.0.0.1:8000/login_signup/dashboard (requires login)
+- **Sign Out:** Click "Sign Out" button on dashboard
+
+### Features Demonstrated
+✅ Django's built-in User model
+✅ UserCreationForm for registration
+✅ Class-based views (LoginView, LogoutView)
+✅ Function-based views with decorators
+✅ Authentication decorators (@login_required)
+✅ User sessions management
+✅ Redirect URL patterns using reverse_lazy
+✅ CSRF token protection
+✅ User object and authentication context
+
+### Implementation Steps
+
+1. **Create App:**
+   ```bash
+   python manage.py startapp login_signup
+   ```
+
+2. **Create Templates:** Create signup_page.html, signin_page.html, and dashboard.html
+
+3. **Create Views:** Implement signup, signin, signout, and dashboard views
+
+4. **Configure URLs:** Map all views with named URL patterns
+
+5. **Update Settings:** Add login redirects and configure authentication
+
+6. **Test:** Register a user, login, view dashboard, and logout
+
+### Common Issues & Solutions
+
+| Issue | Solution |
+|-------|----------|
+| "Reverse for 'user_signout' not found" | Ensure all URL patterns have `name` attributes |
+| 404 on login_signup pages | Check that app is in INSTALLED_APPS and URLs are registered |
+| Redirects not working | Verify LOGIN_URL and LOGIN_REDIRECT_URL in settings.py |
+| CSRF token missing error | Add `{% csrf_token %}` in form templates |
+
+---
+
+## �📌 Important Django Commands
 
 ### Project Management
 
@@ -904,6 +1134,31 @@ todo_django/
 │   ├── templates/
 │   │   └── course_list.html           # Display with download links
 │   └── migrations/
+│
+├── practice/                          # Practice project (contains Lab 8 and others)
+│   ├── manage.py
+│   ├── db.sqlite3
+│   │
+│   ├── practice/                      # Project settings
+│   │   ├── settings.py
+│   │   ├── urls.py                    # Main URL routing for practice
+│   │   ├── wsgi.py
+│   │   └── asgi.py
+│   │
+│   ├── login_signup/                  # Lab 8 - Authentication System
+│   │   ├── models.py
+│   │   ├── views.py                   # Signup, signin, signout, dashboard views
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── forms.py
+│   │   ├── templates/
+│   │   │   ├── signup_page.html       # User registration form
+│   │   │   ├── signin_page.html       # User login form
+│   │   │   ├── dashboard.html         # Protected user dashboard
+│   │   │   └── Unique_register.html
+│   │   └── migrations/
+│   │
+│   └── ... (other practice apps)
 │
 └── ... (other apps)
 ```

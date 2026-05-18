@@ -1,0 +1,8 @@
+<h2>Welcome, {{ user.username }}!</h2>
+{% if user.is_authenticated %}
+    <p>You are logged in. Feel free to explore!</p>
+    <form action="{% url 'user_signout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Sign Out</button>
+    </form>
+{% endif %}

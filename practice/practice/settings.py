@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'template_inheritance',
     'student',
     'student_forms',
-    'generic_class'
+    'generic_class',
+    'login_signup'
 ]
 
 MIDDLEWARE = [

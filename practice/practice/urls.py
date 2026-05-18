@@ -22,6 +22,7 @@ from student import views as student_course
 from student_forms import views as student_forms
 from generic_class import views as generic_class
 from pdf_csv import views as pdf_csv
+from login_signup import views as login_signup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,5 +36,9 @@ urlpatterns = [
     path('generic_class/students',generic_class.StudentListView.as_view(), name='student_list'),
     path('generic_class/students/<int:id>',generic_class.StudentDetailView.as_view(), name='student_detail'),
     path('pdf_csv/csv',pdf_csv.generateCSV),
-    path('pdf_csv/pdf',pdf_csv.generatePDF)
+    path('pdf_csv/pdf',pdf_csv.generatePDF),
+    path('login_signup/signup',login_signup.user_signup, name='user_signup'),
+    path('login_signup/signin',login_signup.UserSigninView.as_view(), name='user_signin'),
+    path('login_signup/signout',login_signup.UserSignoutView.as_view(), name='user_signout'),
+    path('login_signup/dashboard',login_signup.dashboard_view, name='dashboard')
 ]
